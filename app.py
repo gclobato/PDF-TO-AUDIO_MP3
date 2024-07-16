@@ -31,14 +31,21 @@ def upload_file():
     if file.filename == '':
         return "No selected file"
     if file and file.filename.endswith('.pdf'):
-        temp_pdf = tempfile.NamedTemporaryFile(delete=False)
-        temp_pdf.write(file.read())
-        temp_pdf.close()
-        temp_audio = tempfile.NamedTemporaryFile(delete=False, suffix='.mp3')
-        text = pdf_to_text(temp_pdf.name)
-        text_to_audio(text, temp_audio.name)
-        os.remove(temp_pdf.name)
-        return send_file(temp_audio.name, as_attachment=True, download_name='output_audio.mp3')
+        try:
+            temp_pdf = tempfile.NamedTemporaryFile(delete=False)
+            temp_pdf.write(file.read())
+            temp_pdf.close()
+
+            text = pdf_to_text(temp_pdf.name)
+
+            temp_audio = tempfile.NamedTemporaryFile(delete=False, suffix='.mp3')
+            text_to_audio(text, temp_audio.name)
+            temp_audio.close()
+
+            os.remove(temp_pdf.name)
+            return send_file(temp_audio.name, as_attachment=True, download_name='output_audio.mp3')
+        except Exception as e:
+            return str(e)
     return "Invalid file type"
 
 if __name__ == '__main__':
