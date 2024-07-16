@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8">
+    <title>Conversor de PDF para áudio</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+ </head>
+  <body>
+    <div class="container">
+      <h1>Carregue um arquivo PDF para converter em áudio</h1>
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="application/pdf">
+        <input type="submit" value="Upload">
+      </form>
+    </div>
+  </body>
+</html>
